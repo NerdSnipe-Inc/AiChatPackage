@@ -30,7 +30,7 @@ Add only what you need. `AIChatLlama` pulls a large XCFramework (~500 MB); omit 
 // Package.swift
 .package(
     url: "https://github.com/NerdSnipe-Inc/AiChatPackage",
-    from: "1.0.0"
+    from: "0.1.0"
 )
 ```
 
