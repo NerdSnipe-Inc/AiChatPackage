@@ -6,6 +6,7 @@ import AIChatLlama
 import AIChatMLX
 import AIChatFoundationModels
 import AIChatUI
+import FoundationModels
 import JSONSchema
 
 // MARK: - Demo descriptor
