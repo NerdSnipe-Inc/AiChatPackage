@@ -22,14 +22,16 @@ Add only what the target needs:
 
 ```swift
 // Package.swift
-.product(name: "AIChatCore",      package: "AiChatPackage")  // always needed
-.product(name: "AIChatOpenAI",    package: "AiChatPackage")  // OpenAI / OpenRouter / llama-server
-.product(name: "AIChatAnthropic", package: "AiChatPackage")  // Anthropic
-.product(name: "AIChatUI",        package: "AiChatPackage")  // ChatSession + ChatView
-.product(name: "AIChatLlama",     package: "AiChatPackage")  // on-device llama.cpp (~500 MB binary)
+.product(name: "AIChatCore",             package: "AiChatPackage")  // always needed
+.product(name: "AIChatOpenAI",           package: "AiChatPackage")  // OpenAI / OpenRouter / llama-server
+.product(name: "AIChatAnthropic",        package: "AiChatPackage")  // Anthropic
+.product(name: "AIChatUI",               package: "AiChatPackage")  // ChatSession + ChatView
+.product(name: "AIChatLlama",            package: "AiChatPackage")  // on-device llama.cpp GGUF (~500 MB binary)
+.product(name: "AIChatMLX",              package: "AiChatPackage")  // Apple MLX, Apple Silicon only
+.product(name: "AIChatFoundationModels", package: "AiChatPackage")  // Apple Intelligence, macOS/iOS 26+
 ```
 
-`AIChatLlama` pulls a large XCFramework. Omit it for cloud-only targets.
+`AIChatLlama` pulls a large binary XCFramework (~500 MB). `AIChatMLX` and `AIChatFoundationModels` are standard Swift packages with no binary blobs.
 
 ---
 
@@ -187,6 +189,53 @@ OpenAI o-series reasoning effort:
 ```swift
 ChatRequestOptions(reasoningEffort: "high")  // "none"|"minimal"|"low"|"medium"|"high"|"xhigh"
 ```
+
+### Apple MLX (on-device, Apple Silicon)
+
+```swift
+import AIChatMLX
+
+// Hub model (downloaded and cached on first use)
+let provider = MLXProvider()                                              // default: gemma-4-e4b-it-4bit
+let provider = MLXProvider(modelId: "mlx-community/Qwen3-1.7B-4bit")
+
+// Pre-downloaded local directory
+let provider = MLXProvider(modelPath: URL(fileURLWithPath: "/path/to/dir"))
+```
+
+Show download progress before first inference:
+
+```swift
+try await provider.loadModel { progress in
+    // progress.fractionCompleted: Double (0.0–1.0)
+}
+```
+
+`MLXProvider` is an `actor`. The `model` parameter on `ChatSession` is ignored — model is fixed at init.
+
+Requires Apple Silicon. Does not run on Intel Macs or Simulator.
+
+### Apple Foundation Models (Apple Intelligence)
+
+```swift
+import AIChatFoundationModels
+import FoundationModels
+
+// Always check availability first — requires Apple Intelligence enabled in Settings
+guard case .available = SystemLanguageModel.default.availability else { return }
+
+@available(macOS 26.0, iOS 26.0, *)
+let provider = FoundationModelsProvider()
+
+// Custom generation options
+@available(macOS 26.0, iOS 26.0, *)
+let provider = FoundationModelsProvider(
+    model: .default,
+    generationOptions: GenerationOptions()
+)
+```
+
+`FoundationModelsProvider` is a `struct`. The `model` parameter on `ChatSession` is ignored. Multi-turn history is replayed into the `LanguageModelSession` transcript on each call. Requires macOS 26.0+ / iOS 26.0+ with Apple Intelligence hardware and enabled in Settings.
 
 ### llama.cpp (on-device)
 
@@ -437,4 +486,7 @@ struct MyProvider: ChatProvider {
 - **Don't set `thinkingBudget` without also setting `maxTokens` above the budget.** Anthropic requires `maxTokens > thinkingBudget`.
 - **Don't omit `AIChatLlama` from `.gitignore` or try to commit the resolved XCFramework.** It's ~500 MB.
 - **`LlamaProvider` is an actor.** Do not call it directly from `@MainActor` synchronous context.
+- **`MLXProvider` is an actor.** Same isolation rules as `LlamaProvider`. Call `loadModel()` before first use if you want to show download progress.
+- **`MLXProvider` requires Apple Silicon.** Do not add `AIChatMLX` to targets that must run on Intel Macs or Simulator.
+- **`FoundationModelsProvider` requires macOS 26+ / iOS 26+.** Wrap all usage in `@available(macOS 26.0, iOS 26.0, *)` and always check `SystemLanguageModel.default.availability` before instantiating.
 - **`ChatSession` is `@MainActor`.** All access to `session.entries`, `session.isGenerating`, etc. must happen on the main actor.

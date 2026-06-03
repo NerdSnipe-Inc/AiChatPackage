@@ -17,10 +17,12 @@ A Swift package providing a unified chat interface across cloud and on-device AI
 | `AIChatCore` | Protocols, message model, shared types |
 | `AIChatOpenAI` | OpenAI-compatible provider (OpenAI, OpenRouter, llama-server, …) |
 | `AIChatAnthropic` | Anthropic Messages API provider with extended thinking support |
-| `AIChatLlama` | In-process llama.cpp inference with Metal GPU acceleration |
+| `AIChatLlama` | In-process llama.cpp inference via GGUF (Metal GPU, ~500 MB binary) |
+| `AIChatMLX` | Apple MLX on-device inference — downloads from Hugging Face Hub |
+| `AIChatFoundationModels` | Apple Intelligence on-device inference (macOS 26+ / iOS 26+) |
 | `AIChatUI` | Drop-in SwiftUI chat interface |
 
-Add only what you need. `AIChatLlama` pulls a large XCFramework (~500 MB); omit it for cloud-only targets.
+Add only what you need. `AIChatLlama` pulls a large XCFramework (~500 MB); `AIChatMLX` and `AIChatFoundationModels` are standard Swift packages with no binary blobs.
 
 ---
 
@@ -384,6 +386,85 @@ let session = ChatSession(
 **Metal GPU** — all layers offloaded to Metal by default (`nGpuLayers: 99`). Set to `-1` for CPU-only. GPU is automatically disabled on simulators.
 
 **App Store safe** — no `dlopen()`, no runtime Metal shader compilation, no entitlements beyond `com.apple.security.network.client` for model downloads.
+
+---
+
+## Apple MLX — On-Device Inference
+
+`AIChatMLX` runs models locally via [Apple MLX](https://github.com/ml-explore/mlx-swift-lm). Models are downloaded from Hugging Face Hub on first use and cached in the system caches directory. Requires **Apple Silicon** (M-series Mac or A-series iPhone/iPad).
+
+```swift
+import AIChatMLX
+import AIChatUI
+
+// Default: mlx-community/gemma-4-e4b-it-4bit (~2.5 GB, downloaded on first use)
+let provider = MLXProvider()
+
+// Custom model
+let provider = MLXProvider(modelId: "mlx-community/Qwen3-1.7B-4bit")
+
+// Pre-downloaded local directory
+let provider = MLXProvider(modelPath: URL(fileURLWithPath: "/path/to/model-dir"))
+
+let session = ChatSession(provider: provider, model: "")
+```
+
+Show download progress before starting a chat:
+
+```swift
+try await provider.loadModel { progress in
+    print("Downloading: \(Int(progress.fractionCompleted * 100))%")
+}
+```
+
+Sampling options:
+
+```swift
+MLXProvider(
+    modelId: "mlx-community/gemma-4-e4b-it-4bit",
+    maxTokens: 2048,
+    temperature: 0.7,
+    topP: 0.9,
+    repetitionPenalty: 1.1
+)
+```
+
+The `model` string on `ChatSession` is ignored by `MLXProvider` — the model is set at init time.
+
+---
+
+## Apple Foundation Models — Apple Intelligence
+
+`AIChatFoundationModels` uses Apple's on-device `FoundationModels` framework. Requires **macOS 26+ or iOS 26+** with Apple Intelligence enabled in Settings.
+
+```swift
+import AIChatFoundationModels
+import AIChatUI
+import FoundationModels
+
+// Check availability before use
+guard case .available = SystemLanguageModel.default.availability else {
+    // Apple Intelligence not available on this device/OS
+    return
+}
+
+@available(macOS 26.0, iOS 26.0, *)
+let provider = FoundationModelsProvider()
+
+let session = ChatSession(provider: provider, model: "")
+```
+
+Custom generation options:
+
+```swift
+@available(macOS 26.0, iOS 26.0, *)
+let provider = FoundationModelsProvider(
+    model: .default,
+    generationOptions: GenerationOptions()
+)
+```
+
+Multi-turn conversation history is replayed into the `LanguageModelSession` transcript on each call, giving the model full context. The `model` string on `ChatSession` is ignored.
 
 ---
 
