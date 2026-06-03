@@ -1,0 +1,14 @@
+version: 1
+builder:
+  configs:
+    # Core + cloud providers + UI — built on all supported platforms
+    - documentation_targets:
+        - AIChatCore
+        - AIChatOpenAI
+        - AIChatAnthropic
+        - AIChatUI
+    # llama.cpp target — separate config because it pulls a ~500 MB binary XCFramework.
+    # SPI will attempt to resolve it; if the binary download times out on their servers
+    # this config can be removed without affecting the other targets.
+    - documentation_targets:
+        - AIChatLlama
