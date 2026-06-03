@@ -12,6 +12,8 @@
 		AABB00032CA6152E002D1CD0 /* AIChatAnthropic in Frameworks */ = {isa = PBXBuildFile; productRef = AABB00082CA6152E002D1CD0 /* AIChatAnthropic */; };
 		AABB00042CA6152E002D1CD0 /* AIChatLlama in Frameworks */ = {isa = PBXBuildFile; productRef = AABB00092CA6152E002D1CD0 /* AIChatLlama */; };
 		AABB00052CA6152E002D1CD0 /* AIChatUI in Frameworks */ = {isa = PBXBuildFile; productRef = AABB000A2CA6152E002D1CD0 /* AIChatUI */; };
+		AABB000B2CA6152E002D1CD0 /* AIChatMLX in Frameworks */ = {isa = PBXBuildFile; productRef = AABB000D2CA6152E002D1CD0 /* AIChatMLX */; };
+		AABB000C2CA6152E002D1CD0 /* AIChatFoundationModels in Frameworks */ = {isa = PBXBuildFile; productRef = AABB000E2CA6152E002D1CD0 /* AIChatFoundationModels */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 				AABB00032CA6152E002D1CD0 /* AIChatAnthropic in Frameworks */,
 				AABB00042CA6152E002D1CD0 /* AIChatLlama in Frameworks */,
 				AABB00052CA6152E002D1CD0 /* AIChatUI in Frameworks */,
+				AABB000B2CA6152E002D1CD0 /* AIChatMLX in Frameworks */,
+				AABB000C2CA6152E002D1CD0 /* AIChatFoundationModels in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +87,8 @@
 				AABB00082CA6152E002D1CD0 /* AIChatAnthropic */,
 				AABB00092CA6152E002D1CD0 /* AIChatLlama */,
 				AABB000A2CA6152E002D1CD0 /* AIChatUI */,
+				AABB000D2CA6152E002D1CD0 /* AIChatMLX */,
+				AABB000E2CA6152E002D1CD0 /* AIChatFoundationModels */,
 			);
 			productName = Playground;
 			productReference = 0AB333552CA6146B002D1CD0 /* Playground.app */;
@@ -366,6 +372,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AABB00002CA6152E002D1CD0 /* XCLocalSwiftPackageReference ".." */;
 			productName = AIChatUI;
+		};
+		AABB000D2CA6152E002D1CD0 /* AIChatMLX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AABB00002CA6152E002D1CD0 /* XCLocalSwiftPackageReference ".." */;
+			productName = AIChatMLX;
+		};
+		AABB000E2CA6152E002D1CD0 /* AIChatFoundationModels */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AABB00002CA6152E002D1CD0 /* XCLocalSwiftPackageReference ".." */;
+			productName = AIChatFoundationModels;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

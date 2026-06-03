@@ -3,6 +3,8 @@ import AIChatCore
 import AIChatOpenAI
 import AIChatAnthropic
 import AIChatLlama
+import AIChatMLX
+import AIChatFoundationModels
 import AIChatUI
 import JSONSchema
 
@@ -18,10 +20,12 @@ struct Demo: Identifiable {
     let config: Config
 
     enum ProviderKind: String, Hashable {
-        case openai      = "OpenAI"
-        case anthropic   = "Anthropic"
-        case llamaServer = "llama.cpp (server)"
-        case llamaLocal  = "llama.cpp (local)"
+        case openai            = "OpenAI"
+        case anthropic         = "Anthropic"
+        case llamaServer       = "llama.cpp (server)"
+        case llamaLocal        = "llama.cpp (local)"
+        case mlx               = "MLX (on-device)"
+        case foundationModels  = "Foundation Models"
     }
 
     // Config is not Hashable because ChatRequestOptions contains JSONSchema (not Hashable).
@@ -29,6 +33,8 @@ struct Demo: Identifiable {
     enum Config {
         case chat(model: String, options: ChatRequestOptions)
         case llamaLocal
+        case mlx
+        case foundationModels
     }
 }
 
@@ -99,13 +105,17 @@ final class AppViewModel {
         return LlamaProvider(modelPath: path, contextSize: 4096, nGpuLayers: 99)
     }
 
+    func mlxProvider() -> MLXProvider {
+        MLXProvider()   // default: mlx-community/gemma-4-e4b-it-4bit, downloads on first use
+    }
+
     // MARK: - Session cache
 
     /// One session per demo ID — persists conversations across sidebar switches.
     private var sessionCache: [String: ChatSession] = [:]
 
     /// Returns the cached session for this demo, creating one if needed.
-    /// Returns nil when the required API key is missing.
+    /// Returns nil when the required credential is missing or the feature is unavailable.
     func session(for demo: Demo) -> ChatSession? {
         if let existing = sessionCache[demo.id] { return existing }
         guard let fresh = makeSession(for: demo) else { return nil }
@@ -133,10 +143,29 @@ final class AppViewModel {
             case .llamaServer:
                 guard let provider = openAICompatibleProvider(urlString: llamaServerURL) else { return nil }
                 return ChatSession(provider: provider, model: model, options: options)
-            case .llamaLocal:
-                return nil  // handled separately by LlamaLocalView
+            case .llamaLocal, .mlx, .foundationModels:
+                return nil  // handled by dedicated views
             }
+
         case .llamaLocal:
+            return nil  // handled by LlamaLocalView
+
+        case .mlx:
+            return ChatSession(
+                provider: mlxProvider(),
+                model: "",
+                options: ChatRequestOptions(systemPrompt: "You are a helpful assistant.")
+            )
+
+        case .foundationModels:
+            if #available(macOS 26.0, iOS 26.0, *) {
+                guard case .available = SystemLanguageModel.default.availability else { return nil }
+                return ChatSession(
+                    provider: FoundationModelsProvider(),
+                    model: "",
+                    options: ChatRequestOptions(systemPrompt: "You are a helpful assistant.")
+                )
+            }
             return nil
         }
     }
@@ -283,6 +312,26 @@ final class AppViewModel {
                 systemImage: "cpu",
                 badge: "in-process",
                 config: .llamaLocal
+            ),
+            // ── Apple MLX ─────────────────────────────────────────────────
+            Demo(
+                id: "mlx-chat",
+                provider: .mlx,
+                title: "Gemma 4 E4B",
+                subtitle: "Downloads ~2.5 GB on first use",
+                systemImage: "memorychip",
+                badge: "MLX",
+                config: .mlx
+            ),
+            // ── Apple Foundation Models ───────────────────────────────────
+            Demo(
+                id: "foundation-models-chat",
+                provider: .foundationModels,
+                title: "Apple Intelligence",
+                subtitle: "On-device via FoundationModels framework",
+                systemImage: "apple.intelligence",
+                badge: "macOS 26+",
+                config: .foundationModels
             ),
         ]
     }

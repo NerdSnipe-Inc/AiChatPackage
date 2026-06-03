@@ -33,10 +33,12 @@ struct DemoRow: View {
 
     private var providerColor: Color {
         switch demo.provider {
-        case .openai:      .green
-        case .anthropic:   .orange
-        case .llamaServer: .blue
-        case .llamaLocal:  .purple
+        case .openai:           .green
+        case .anthropic:        .orange
+        case .llamaServer:      .blue
+        case .llamaLocal:       .purple
+        case .mlx:              .teal
+        case .foundationModels: .pink
         }
     }
 }

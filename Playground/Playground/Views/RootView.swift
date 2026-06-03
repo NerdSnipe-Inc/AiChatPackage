@@ -45,9 +45,9 @@ struct RootView: View {
                 LlamaLocalView()
             } else if let session = vm.session(for: demo) {
                 ChatDemoView(demo: demo, session: session)
-                    .id(demo.id)   // force recreation when demo changes so @State session reinitialises
+                    .id(demo.id)
             } else {
-                credentialRequired(for: demo)
+                unavailableView(for: demo)
             }
         } else {
             welcomeView
@@ -72,7 +72,37 @@ struct RootView: View {
         .background(.background)
     }
 
-    // MARK: - Credential required
+    // MARK: - Unavailable / credential required
+
+    @ViewBuilder
+    private func unavailableView(for demo: Demo) -> some View {
+        switch demo.provider {
+        case .foundationModels:
+            foundationModelsUnavailableView
+        default:
+            credentialRequired(for: demo)
+        }
+    }
+
+    private var foundationModelsUnavailableView: some View {
+        VStack(spacing: 20) {
+            Image(systemName: "apple.intelligence")
+                .font(.system(size: 40))
+                .foregroundStyle(.secondary)
+            Text("Apple Intelligence required")
+                .font(.title2.bold())
+            if #available(macOS 26.0, iOS 26.0, *) {
+                Text("Enable Apple Intelligence in System Settings → Apple Intelligence & Siri.")
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            } else {
+                Text("Requires macOS 26 or iOS 26 with Apple Intelligence enabled.")
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
 
     private func credentialRequired(for demo: Demo) -> some View {
         VStack(spacing: 20) {
@@ -95,6 +125,6 @@ struct RootView: View {
 
 extension Demo.ProviderKind: CaseIterable {
     static var allCases: [Demo.ProviderKind] {
-        [.openai, .anthropic, .llamaServer, .llamaLocal]
+        [.openai, .anthropic, .llamaServer, .llamaLocal, .mlx, .foundationModels]
     }
 }
