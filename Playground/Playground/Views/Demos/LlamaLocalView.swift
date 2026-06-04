@@ -3,7 +3,7 @@ import AIChatCore
 import AIChatLlama
 import AIChatUI
 
-/// Downloads Gemma 2 2B IT (Q4_K_M, ~1.6 GB) on first launch, then shows a full
+/// Downloads Gemma 4 E2B IT (Q4_K_M, ~3.5 GB) on first launch, then shows a full
 /// ChatView backed by LlamaProvider running inference in-process on the device GPU.
 struct LlamaLocalView: View {
     @Environment(AppViewModel.self) private var vm
@@ -147,7 +147,10 @@ struct LlamaLocalView: View {
     // MARK: - Actions
 
     private func launch() {
-        guard let provider = vm.llamaLocalProvider() else { return }
+        guard let provider = vm.llamaLocalProvider() else {
+            phase = .failed("Model file missing from expected path. Please re-download.")
+            return
+        }
         let session = ChatSession(
             provider: provider,
             model: "local",

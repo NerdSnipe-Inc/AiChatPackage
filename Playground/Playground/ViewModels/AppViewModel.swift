@@ -106,9 +106,9 @@ final class AppViewModel {
         return LlamaProvider(modelPath: path, contextSize: 4096, nGpuLayers: 99)
     }
 
-    func mlxProvider() -> MLXProvider {
-        MLXProvider()   // default: mlx-community/gemma-4-e4b-it-4bit, downloads on first use
-    }
+    // Single instance — model weights stay resident after first load so
+    // returning to the sidebar item doesn't reload from disk each time.
+    let mlxProvider = MLXProvider()
 
     // MARK: - Session cache
 
@@ -152,11 +152,7 @@ final class AppViewModel {
             return nil  // handled by LlamaLocalView
 
         case .mlx:
-            return ChatSession(
-                provider: mlxProvider(),
-                model: "",
-                options: ChatRequestOptions(systemPrompt: "You are a helpful assistant.")
-            )
+            return nil  // handled by MLXLocalView
 
         case .foundationModels:
             if #available(macOS 26.0, iOS 26.0, *) {

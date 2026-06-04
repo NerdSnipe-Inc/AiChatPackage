@@ -43,6 +43,8 @@ struct RootView: View {
         if let demo = selectedDemo {
             if case .llamaLocal = demo.config {
                 LlamaLocalView()
+            } else if case .mlx = demo.config {
+                MLXLocalView()
             } else if let session = vm.session(for: demo) {
                 ChatDemoView(demo: demo, session: session)
                     .id(demo.id)
