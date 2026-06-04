@@ -119,7 +119,7 @@
 			mainGroup = 0AB3334C2CA6146B002D1CD0;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				AABB00002CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../../AIChatKit" */,
+				AABB00002CA6152E002D1CD0 /* XCRemoteSwiftPackageReference "AIChatKit" */,
 				AABB00102CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../../AIChatKitLlama" */,
 				AABB00112CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../../AIChatKitMLX" */,
 			);
@@ -344,11 +344,18 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		AABB00002CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../../AIChatKit" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../AIChatKit;
+/* Begin XCRemoteSwiftPackageReference section */
+		AABB00002CA6152E002D1CD0 /* XCRemoteSwiftPackageReference "AIChatKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/NerdSnipe-Inc/AIChatKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
 		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCLocalSwiftPackageReference section */
 		AABB00102CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../../AIChatKitLlama" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../AIChatKitLlama;
@@ -362,17 +369,17 @@
 /* Begin XCSwiftPackageProductDependency section */
 		AABB00062CA6152E002D1CD0 /* AIChatCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AABB00002CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../AIChatKit" */;
+			package = AABB00002CA6152E002D1CD0 /* XCRemoteSwiftPackageReference "AIChatKit" */;
 			productName = AIChatCore;
 		};
 		AABB00072CA6152E002D1CD0 /* AIChatOpenAI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AABB00002CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../AIChatKit" */;
+			package = AABB00002CA6152E002D1CD0 /* XCRemoteSwiftPackageReference "AIChatKit" */;
 			productName = AIChatOpenAI;
 		};
 		AABB00082CA6152E002D1CD0 /* AIChatAnthropic */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AABB00002CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../AIChatKit" */;
+			package = AABB00002CA6152E002D1CD0 /* XCRemoteSwiftPackageReference "AIChatKit" */;
 			productName = AIChatAnthropic;
 		};
 		AABB00092CA6152E002D1CD0 /* AIChatLlama */ = {
@@ -382,7 +389,7 @@
 		};
 		AABB000A2CA6152E002D1CD0 /* AIChatUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AABB00002CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../AIChatKit" */;
+			package = AABB00002CA6152E002D1CD0 /* XCRemoteSwiftPackageReference "AIChatKit" */;
 			productName = AIChatUI;
 		};
 		AABB000D2CA6152E002D1CD0 /* AIChatMLX */ = {
@@ -392,7 +399,7 @@
 		};
 		AABB000E2CA6152E002D1CD0 /* AIChatFoundationModels */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AABB00002CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../AIChatKit" */;
+			package = AABB00002CA6152E002D1CD0 /* XCRemoteSwiftPackageReference "AIChatKit" */;
 			productName = AIChatFoundationModels;
 		};
 /* End XCSwiftPackageProductDependency section */
