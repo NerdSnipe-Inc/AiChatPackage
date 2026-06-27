@@ -2,6 +2,11 @@ import SwiftUI
 import AIChatCore
 import AIChatUI
 
+/// Primary navigation shell for the playground app.
+///
+/// `RootView` groups demos by provider in a sidebar and routes the detail pane
+/// to either provider-specific local views (`LlamaLocalView`, `MLXLocalView`)
+/// or the shared `ChatDemoView` session experience.
 struct RootView: View {
     @Environment(AppViewModel.self) private var vm
     @Environment(\.openSettings) private var openSettings

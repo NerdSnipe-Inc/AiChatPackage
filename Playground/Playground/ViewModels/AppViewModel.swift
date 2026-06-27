@@ -11,6 +11,7 @@ import JSONSchema
 
 // MARK: - Demo descriptor
 
+/// Describes one runnable playground scenario shown in the sidebar.
 struct Demo: Identifiable {
     let id: String
     let provider: ProviderKind
@@ -48,6 +49,11 @@ extension Demo: Hashable {
 
 @MainActor
 @Observable
+/// Central state and factory object for playground demos.
+///
+/// Persists credentials/settings in `UserDefaults`, exposes provider factories,
+/// and caches one `ChatSession` per demo so conversations survive sidebar
+/// navigation in the demo application.
 final class AppViewModel {
 
     // ── API keys — written through to UserDefaults immediately on change ─────

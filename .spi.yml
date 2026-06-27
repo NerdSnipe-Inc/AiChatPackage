@@ -1,9 +1,4 @@
 version: 1
-# Playground demo app — installable library products live in sibling packages.
-external_documentation:
-  - name: AIChatKit
-    url: https://swiftpackageindex.com/NerdSnipe-Inc/AIChatKit
-  - name: AIChatKitLlama
-    url: https://swiftpackageindex.com/NerdSnipe-Inc/AIChatKitLlama
-  - name: AIChatKitMLX
-    url: https://swiftpackageindex.com/NerdSnipe-Inc/AIChatKitMLX
+metadata:
+  authors:
+    - NerdSnipe Inc.
