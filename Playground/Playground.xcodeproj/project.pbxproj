@@ -283,7 +283,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Playground/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = QW2MDLZZJH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -307,7 +307,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Playground/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = QW2MDLZZJH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -344,17 +344,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		AABB00002CA6152E002D1CD0 /* XCRemoteSwiftPackageReference "AIChatKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/NerdSnipe-Inc/AIChatKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCLocalSwiftPackageReference section */
 		AABB00102CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../../AIChatKitLlama" */ = {
 			isa = XCLocalSwiftPackageReference;
@@ -365,6 +354,17 @@
 			relativePath = ../../AIChatKitMLX;
 		};
 /* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AABB00002CA6152E002D1CD0 /* XCRemoteSwiftPackageReference "AIChatKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/NerdSnipe-Inc/AIChatKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		AABB00062CA6152E002D1CD0 /* AIChatCore */ = {
@@ -384,7 +384,7 @@
 		};
 		AABB00092CA6152E002D1CD0 /* AIChatLlama */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AABB00102CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../AIChatKitLlama" */;
+			package = AABB00102CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../../AIChatKitLlama" */;
 			productName = AIChatLlama;
 		};
 		AABB000A2CA6152E002D1CD0 /* AIChatUI */ = {
@@ -394,7 +394,7 @@
 		};
 		AABB000D2CA6152E002D1CD0 /* AIChatMLX */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AABB00112CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../AIChatKitMLX" */;
+			package = AABB00112CA6152E002D1CD0 /* XCLocalSwiftPackageReference "../../AIChatKitMLX" */;
 			productName = AIChatMLX;
 		};
 		AABB000E2CA6152E002D1CD0 /* AIChatFoundationModels */ = {

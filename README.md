@@ -1,5 +1,8 @@
 # AIChatKit Playground
 
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FNerdSnipe-Inc%2FAiChatPackage%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/NerdSnipe-Inc/AiChatPackage)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FNerdSnipe-Inc%2FAiChatPackage%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/NerdSnipe-Inc/AiChatPackage)
+
 A macOS app that exercises every provider in the AIChatKit family side-by-side. Use it to explore capabilities, test your API keys, or as a reference implementation when integrating the packages into your own app.
 
 > **Looking to add AI chat to your app?**  

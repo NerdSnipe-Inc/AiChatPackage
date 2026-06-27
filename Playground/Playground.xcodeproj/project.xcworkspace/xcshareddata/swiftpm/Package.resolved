@@ -1,6 +1,15 @@
 {
-  "originHash" : "b3c7f9926f993796a8160e65a8f8e52a8675ca204f86c11b5968f0c1933c4ed6",
+  "originHash" : "4fa5938a03d648e08288217e72c56cff366fdca59e08f1669de89c2198667033",
   "pins" : [
+    {
+      "identity" : "aichatkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/NerdSnipe-Inc/AIChatKit.git",
+      "state" : {
+        "revision" : "ca579e32490b62ed5be2c8954c6b9f69f6fc1020",
+        "version" : "0.1.0"
+      }
+    },
     {
       "identity" : "eventsource",
       "kind" : "remoteSourceControl",
